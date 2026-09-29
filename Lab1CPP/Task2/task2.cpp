@@ -4,13 +4,14 @@
 
 using namespace std;
 
-Array *array_create_and_read(ifstream &input) 
+Array *array_create_and_read(ifstream &input)
 {
     int n;
     input >> n;
+
     Array *arr = array_create(n);
 
-    for (int i = 0; i < n; ++i) 
+    for (int i = 0; i < n; ++i)
     {
         Data x;
         input >> x;
@@ -20,9 +21,9 @@ Array *array_create_and_read(ifstream &input)
     return arr;
 }
 
-const size_t kMaxValue = 1000;
+const Data kMaxValue = 1000;
 
-void task2(Array *arr) 
+void task2(Array *arr)
 {
     size_t n = array_size(arr);
 
@@ -31,11 +32,14 @@ void task2(Array *arr)
     for (size_t i = 0; i < n; ++i)
     {
         Data value = array_get(arr, i);
-        if (value > kMaxValue)
+
+        if (value < 0 || value > kMaxValue)
         {
-            cerr << "Value out of range [0, " << kMaxValue << "]: " << value << "\n";
+            cerr << "Value out of range [0, " << kMaxValue << "]: "
+                 << value << "\n";
             return;
         }
+
         ++counts[value];
     }
 
