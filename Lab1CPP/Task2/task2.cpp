@@ -33,7 +33,7 @@ void task2(Array *arr)
     {
         Data value = array_get(arr, i);
 
-        if (value < 0 || value > kMaxValue)
+        if (value > kMaxValue)
         {
             cerr << "Value out of range [0, " << kMaxValue << "]: "
                  << value << "\n";
