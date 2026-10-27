@@ -1,0 +1,14 @@
+invokestatic 10
+swap
+istore_0
+swap
+istore_1
+iload_0
+iload_1
+imul
+swap
+return
+bipush 6
+bipush 7
+invokestatic 1
+istore_3

@@ -1,0 +1,2 @@
+bipush 1
+idiv

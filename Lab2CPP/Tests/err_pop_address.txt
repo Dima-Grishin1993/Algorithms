@@ -1,0 +1,2 @@
+invokestatic 1
+pop
