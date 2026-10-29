@@ -1,57 +1,59 @@
 #include <iostream>
 #include "stack.h"
 
+using namespace std;
+
+// Печатает сообщение и завершает тест с ошибкой
+#define CHECK(cond, msg)                         \
+    if (!(cond))                                 \
+    {                                            \
+        cout << "FAILED: " << msg << "\n";  \
+        stack_delete(stack);                     \
+        return 1;                                \
+    }
+
 int main()
 {
     Stack *stack = stack_create();
 
+    // нов пустой стек 
+    CHECK(stack_empty(stack), "new stack is not empty");
+
+    // послед доб эл
     stack_push(stack, 1);
+    CHECK(!stack_empty(stack), "stack is empty after push");
+    CHECK(stack_get(stack) == 1, "top after push(1)");
     stack_push(stack, 2);
     stack_push(stack, 3);
+    CHECK(stack_get(stack) == 3, "top after push(3)");
 
-    if (stack_get(stack) != 3)
-    {
-        std::cout << "Invalid stack top after push\n";
-        stack_delete(stack);
-        return 1;
-    }
+    // извлече в обр поряд
+    stack_pop(stack);
+    CHECK(stack_get(stack) == 2, "top after first pop");
+    stack_pop(stack);
+    CHECK(stack_get(stack) == 1, "top after second pop");
+    stack_pop(stack);
+    CHECK(stack_empty(stack), "stack is not empty after popping all");
 
-    std::cout << "Get: " << stack_get(stack) << "\n";
+    stack_pop(stack);
+    CHECK(stack_empty(stack), "pop on empty stack");
+
+    stack_push(stack, -5);
+    CHECK(stack_get(stack) == -5, "push after empty");
     stack_pop(stack);
 
-    if (stack_get(stack) != 2)
+    // провер скр O(1) в среднем
+    const Data N = 1000000;
+    for (Data i = 0; i < N; ++i)
+        stack_push(stack, i);
+    for (Data i = N - 1; i >= 0; --i)
     {
-        std::cout << "Invalid stack top after pop\n";
-        stack_delete(stack);
-        return 1;
-    }
-
-    std::cout << "Get: " << stack_get(stack) << "\n";
-    stack_pop(stack);
-
-    if (stack_get(stack) != 1)
-    {
-        std::cout << "Invalid stack top after pop\n";
-        stack_delete(stack);
-        return 1;
-    }
-
-    std::cout << "Get: " << stack_get(stack) << "\n";
-    stack_push(stack, 4);
-    stack_push(stack, 5);
-
-    if (stack_get(stack) != 5)
-    {
-        std::cout << "Invalid stack top after push\n";
-        stack_delete(stack);
-        return 1;
-    }
-
-    while (!stack_empty(stack))
-    {
-        std::cout << "Get: " << stack_get(stack) << "\n";
+        CHECK(stack_get(stack) == i, "wrong order on many elements");
         stack_pop(stack);
     }
+    CHECK(stack_empty(stack), "stack is not empty after many pops");
 
     stack_delete(stack);
+    cout << "stack: OK\n";
+    return 0;
 }
