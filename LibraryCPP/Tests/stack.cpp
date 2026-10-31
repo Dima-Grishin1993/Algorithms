@@ -3,7 +3,6 @@
 
 using namespace std;
 
-// Печатает сообщение и завершает тест с ошибкой
 #define CHECK(cond, msg)                         \
     if (!(cond))                                 \
     {                                            \
@@ -16,10 +15,8 @@ int main()
 {
     Stack *stack = stack_create();
 
-    // нов пустой стек 
     CHECK(stack_empty(stack), "new stack is not empty");
 
-    // послед доб эл
     stack_push(stack, 1);
     CHECK(!stack_empty(stack), "stack is empty after push");
     CHECK(stack_get(stack) == 1, "top after push(1)");
@@ -27,7 +24,6 @@ int main()
     stack_push(stack, 3);
     CHECK(stack_get(stack) == 3, "top after push(3)");
 
-    // извлече в обр поряд
     stack_pop(stack);
     CHECK(stack_get(stack) == 2, "top after first pop");
     stack_pop(stack);
@@ -42,7 +38,6 @@ int main()
     CHECK(stack_get(stack) == -5, "push after empty");
     stack_pop(stack);
 
-    // провер скр O(1) в среднем
     const Data N = 1000000;
     for (Data i = 0; i < N; ++i)
         stack_push(stack, i);
